@@ -1,0 +1,39 @@
+<div class="booking-wrapper">
+  <div class="card">
+    <h5 class="card-header">Book a parking slot</h5>
+    <div class="card-body">
+      <form [formGroup]="parkingForm"
+        (ngSubmit)="findParkingSlot()">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputRegistrationNumber">Vehicle Registration</label>
+            <input type="text"
+              placeholder="MH-12-BK-4109"
+              class="form-control"
+              formControlName="registrationNumber"
+              id="inputRegistrationNumber">
+          </div>
+          <div class="form-group col-md">
+            <label for="inputVehicleType">Type of Vehicle</label>
+            <select class="form-control"
+              id="inputVehicleType"
+              formControlName="vehicleType"
+              (change)="changeVehicleType($event)">
+              <option value=""
+                disabled>Choose...</option>
+              <option *ngFor="let vehicle of vehicleTypes"
+                [ngValue]="vehicle.value">{{vehicle.text}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md">
+            <button type="submit"
+              [disabled]="!parkingForm.valid"
+              class="btn btn-primary mt-30">
+              Find Space
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
