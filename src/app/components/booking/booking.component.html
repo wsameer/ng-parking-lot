@@ -17,23 +17,35 @@
             <label for="inputVehicleType">Type of Vehicle</label>
             <select class="form-control"
               id="inputVehicleType"
-              formControlName="vehicleType"
-              (change)="changeVehicleType($event)">
+              formControlName="vehicleType">
               <option value=""
                 disabled>Choose...</option>
               <option *ngFor="let vehicle of vehicleTypes"
                 [ngValue]="vehicle.value">{{vehicle.text}}</option>
             </select>
           </div>
-          <div class="form-group col-md">
+          <div class="form-group col-md"
+            *ngIf="parkingSpace.spaceAvailable.length === 0">
             <button type="submit"
-              [disabled]="!parkingForm.valid"
+              [disabled]="!parkingForm.valid || parkingSpace.finding"
               class="btn btn-primary mt-30">
               Find Space
+            </button>
+          </div>
+          <div class="form-group col-md"
+            *ngIf="parkingSpace.spaceAvailable.length > 0">
+            <button type="button"
+              (click)="reserveParking()"
+              class="btn btn-primary mt-30">
+              Reserve parking
             </button>
           </div>
         </div>
       </form>
     </div>
   </div>
+
+  <hr />
+
+  <swp-find-vehicle></swp-find-vehicle>
 </div>

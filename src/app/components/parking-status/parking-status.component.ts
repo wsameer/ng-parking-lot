@@ -1,57 +1,86 @@
 import { Component, OnInit } from '@angular/core';
 import { ParkingLotService } from 'src/app/shared/parking-lot.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CreateParkingLot, createParkingResponse } from 'src/app/shared/api-response.interface';
 
 @Component({
   selector: 'swp-parking-status',
-  templateUrl: './parking-status.component.html',
-  styleUrls: ['./parking-status.component.less']
+  template: `
+    <div class="status-wrapper">
+      <div class="card">
+        <h5 class="card-header">Current Parking Status</h5>
+        <div class="card-body">
+          <ng-container *ngIf="totalParkingSlots">
+            <p>Total Parking Slots: {{ totalParkingSlots }}</p>
+          </ng-container>
+
+          <ng-container *ngIf="!totalParkingSlots">
+            <swp-create-parking-lot (createNewParkingLot)="createNewParkingLot($event)"></swp-create-parking-lot>
+          </ng-container>
+
+          <hr />
+
+          <div class="table-responsive"
+            *ngIf="parkingLotStatus.length > 0">
+            <swp-parking-details 
+              [parkingLotStatus]="parkingLotStatus">
+            </swp-parking-details>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
 })
 export class ParkingStatusComponent implements OnInit {
 
   totalParkingSlots = null;
-  status = [];
-  createParkingLotForm: FormGroup;
-  submitted = false;
-  collapseCreateParkingLot = false;
+  parkingLotStatus = [];
 
   constructor(
     private parkingLot: ParkingLotService,
-    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.getTotalParkingSlotsCount();
+  }
 
-    this.createParkingLotForm = this.formBuilder.group({
-      slots: [0, [Validators.required, Validators.minLength(2), Validators.min(4)]]
-    });
-
+  /**
+   * Get the count of total parking lots
+   */
+  getTotalParkingSlotsCount() {
     this.parkingLot.getTotalParkingSlots()
       .subscribe(response => {
         if (response) {
-          console.log(response);
           this.totalParkingSlots = response.availableSlots;
+          if (this.totalParkingSlots > 0) {
+            this.getCurrentParkingStatus();
+          }
         }
       });
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.createParkingLotForm.controls; }
-
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.createParkingLotForm.invalid) {
-      return false;
-    }
-
-    console.log('Form submitted correctly', this.createParkingLotForm.value);
-    this.parkingLot.createParkingLot(this.createParkingLotForm.value)
-      .subscribe(response => {
-        console.log(response);
-        if (response) {
-          this.collapseCreateParkingLot = false;
+  /**
+   * Get the current status of the Parking lot
+   */
+  getCurrentParkingStatus() {
+    this.parkingLot.parkingStatus()
+      .subscribe((res: any) => {
+        if (res && res.success == 1) {
+          this.parkingLotStatus = res.data
         }
       });
   }
+
+  /**
+   * Creates a new parking lot
+   * @param params { slots: <number> } 
+   */
+  createNewParkingLot(params: CreateParkingLot) {
+    this.parkingLot.createParkingLot(params)
+      .subscribe((response: createParkingResponse) => {
+        if (response && response.success == 1) {
+          this.getTotalParkingSlotsCount();
+        }
+      });
+  }
+
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CreateParkingLot } from './api-response.interface';
 
 const BASE_URL = 'http://localhost:3000/parkinglots';
 
@@ -9,6 +10,7 @@ const BASE_URL = 'http://localhost:3000/parkinglots';
 })
 export class ParkingLotService {
   private options = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
+  // private parkingStatus = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -16,13 +18,33 @@ export class ParkingLotService {
     return this.httpClient.get(BASE_URL);
   }
 
-  createParkingLot(params) {
+  createParkingLot(params: CreateParkingLot) {
     return this.httpClient.post(`${BASE_URL}/create`, params, this.options);
   }
 
   findParking(params) {
     let data = new HttpParams();
     data = data.append('vehicleType', params.vehicleType);
-    return this.httpClient.get(`${BASE_URL}/find`, { params: params });
+    return this.httpClient.get(`${BASE_URL}/find/parking`, { params: params });
+  }
+
+  searchVehicleLocationByRegistration(params) {
+    let data = new HttpParams();
+    data = data.append('registrationNumber', params.registrationNumber);
+    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: params });
+  }
+
+  searchVehicleLocationByVehicleType(params) {
+    let data = new HttpParams();
+    data = data.append('vehicleType', params.vehicleType);
+    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: params });
+  }
+
+  reserveParking(params) {
+    return this.httpClient.post(`${BASE_URL}/park`, params, this.options);
+  }
+
+  parkingStatus() {
+    return this.httpClient.get(`${BASE_URL}/status`);
   }
 }

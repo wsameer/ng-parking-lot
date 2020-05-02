@@ -1,0 +1,25 @@
+<div class="card">
+  <h5 class="card-header">Find your vehicle's location</h5>
+  <div class="card-body">
+    <form class="form-inline"
+      [formGroup]="findVehicleByRegForm"
+      (ngSubmit)="findVehicle()">
+      <label class="sr-only"
+        for="inputRegNumber">Registration Number</label>
+      <input type="text"
+        class="form-control mb-2 mr-sm-4"
+        formControlName="registrationNumber"
+        id="inputRegNumber"
+        placeholder="MH-12-KK-3323">
+      <button type="submit"
+        [disabled]="!findVehicleByRegForm.valid"
+        class="btn btn-primary mb-2">Find</button>
+    </form>
+
+    <hr />
+
+    <div *ngIf="vehicleDetails">
+      <pre>{{ vehicleDetails | json }}</pre>
+    </div>
+  </div>
+</div>
