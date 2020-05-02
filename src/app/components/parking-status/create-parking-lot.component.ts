@@ -7,8 +7,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     <p>
       <button class="btn btn-primary"
         type="button"
-        (click)="collapseCreateParkingLot = true">
-        Create a new parking lot
+        (click)="toggle()">
+        Create/Add a new parking lot
       </button>
     </p>
 
@@ -59,7 +59,12 @@ export class CreateParkingLotComponent implements OnInit {
     }
 
     this.submitted = false;
+    this.toggle();
     return this.createNewParkingLot.emit(this.createParkingLotForm.value);
+  }
+
+  toggle() {
+    this.collapseCreateParkingLot = !this.collapseCreateParkingLot;
   }
 
   // convenience getter for easy access to form fields

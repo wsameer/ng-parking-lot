@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ParkingLotService } from 'src/app/shared/parking-lot.service';
 import { CreateParkingLot, createParkingResponse } from 'src/app/shared/api-response.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'swp-parking-status',
   template: `
     <div class="status-wrapper">
       <div class="card">
-        <h5 class="card-header">Current Parking Status</h5>
+        <div class="card-header">
+          Current Parking Status
+          <button class="btn btn-link float-right" (click)="getTotalParkingSlotsCount()">
+            Refresh
+          </button>
+        </div>
         <div class="card-body">
           <ng-container *ngIf="totalParkingSlots">
-            <p>Total Parking Slots: {{ totalParkingSlots }}</p>
+            <p>Total parking slots: <strong>{{ totalParkingSlots }}</strong></p>
           </ng-container>
 
-          <ng-container *ngIf="!totalParkingSlots">
+          <ng-container>
             <swp-create-parking-lot (createNewParkingLot)="createNewParkingLot($event)"></swp-create-parking-lot>
           </ng-container>
 
@@ -22,6 +28,8 @@ import { CreateParkingLot, createParkingResponse } from 'src/app/shared/api-resp
           <div class="table-responsive"
             *ngIf="parkingLotStatus.length > 0">
             <swp-parking-details 
+              [showDelete]="'true'"
+              (unParkVehicle)="unParkVehicle($event)"
               [parkingLotStatus]="parkingLotStatus">
             </swp-parking-details>
           </div>
@@ -37,6 +45,7 @@ export class ParkingStatusComponent implements OnInit {
 
   constructor(
     private parkingLot: ParkingLotService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -54,6 +63,8 @@ export class ParkingStatusComponent implements OnInit {
           if (this.totalParkingSlots > 0) {
             this.getCurrentParkingStatus();
           }
+        } else {
+          this.toastr.error(response.message, 'Error');
         }
       });
   }
@@ -66,6 +77,8 @@ export class ParkingStatusComponent implements OnInit {
       .subscribe((res: any) => {
         if (res && res.success == 1) {
           this.parkingLotStatus = res.data
+        } else {
+          this.toastr.error(res.message, 'Error');
         }
       });
   }
@@ -78,9 +91,26 @@ export class ParkingStatusComponent implements OnInit {
     this.parkingLot.createParkingLot(params)
       .subscribe((response: createParkingResponse) => {
         if (response && response.success == 1) {
+          this.toastr.success(response.message, 'Success');
           this.getTotalParkingSlotsCount();
+        } else {
+          this.toastr.error(response.message, 'Error');
         }
       });
+  }
+
+  unParkVehicle(registrationNumber: string) {
+    this.parkingLot.unParkThisVehicle({
+      registrationNumber: registrationNumber
+    }).subscribe((response: any) => {
+      console.log(response);
+      if (response && response.success == 1) {
+        this.toastr.success(response.data, 'Bye!');
+        this.getCurrentParkingStatus();
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    });
   }
 
 }

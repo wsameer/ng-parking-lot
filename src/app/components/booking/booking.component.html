@@ -3,16 +3,24 @@
     <h5 class="card-header">Book a parking slot</h5>
     <div class="card-body">
       <form [formGroup]="parkingForm"
-        (ngSubmit)="findParkingSlot()">
+        (ngSubmit)="onFormSubmit()">
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputRegistrationNumber">Vehicle Registration</label>
-            <input type="text"
-              placeholder="MH-12-BK-4109"
-              class="form-control"
+            <input class="form-control"
+              type="text"
+              placeholder="AZ-09-az-9999"
+              [ngClass]="{ 'is-invalid': f.registrationNumber.errors && f.registrationNumber.touched }"
               formControlName="registrationNumber"
-              id="inputRegistrationNumber">
+              id="inputRegistrationNumber" />
+            <div class="invalid-feedback"
+              *ngIf="f.registrationNumber.errors">
+              <span *ngIf="f.registrationNumber.errors.pattern">
+                Registration Number cannot have special characters or white spaces
+              </span>
+            </div>
           </div>
+
           <div class="form-group col-md">
             <label for="inputVehicleType">Type of Vehicle</label>
             <select class="form-control"
@@ -24,24 +32,35 @@
                 [ngValue]="vehicle.value">{{vehicle.text}}</option>
             </select>
           </div>
+
           <div class="form-group col-md"
-            *ngIf="parkingSpace.spaceAvailable.length === 0">
+            *ngIf="!reservingSpace">
             <button type="submit"
-              [disabled]="!parkingForm.valid || parkingSpace.finding"
+              [disabled]="parkingForm.invalid"
               class="btn btn-primary mt-30">
               Find Space
             </button>
           </div>
-          <div class="form-group col-md"
-            *ngIf="parkingSpace.spaceAvailable.length > 0">
-            <button type="button"
-              (click)="reserveParking()"
-              class="btn btn-primary mt-30">
-              Reserve parking
-            </button>
-          </div>
         </div>
       </form>
+
+      <div *ngIf="parkingSpace.spaceAvailable.length > 0">
+        <div class="col-md p-0">
+          <p class="float-left mt-2 mb-0">
+            There is a parking slot available at {{this.parkingSpace.spaceAvailable[0] | spotConverter}} location
+          </p>
+          <button type="button"
+            (click)="reserveParking()"
+            class="btn btn-primary float-right">
+            Reserve parking
+          </button>
+          <button type="button"
+            (click)="cancelReservingSpace()"
+            class="btn btn-danger float-right">
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

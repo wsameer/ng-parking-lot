@@ -7,19 +7,38 @@
       <label class="sr-only"
         for="inputRegNumber">Registration Number</label>
       <input type="text"
-        class="form-control mb-2 mr-sm-4"
+        class="form-control mb-2"
         formControlName="registrationNumber"
         id="inputRegNumber"
-        placeholder="MH-12-KK-3323">
+        [ngClass]="{ 'is-invalid': f.registrationNumber.errors && f.registrationNumber.touched }"
+        placeholder="AZ-09-az-9999" />
+      <div class="invalid-feedback"
+        *ngIf="f.registrationNumber.errors">
+        Registration Number cannot have special characters or white spaces
+      </div>
+
+      <span class="pl-4 pr-4 mb-2">OR</span>
+
+      <label class="sr-only"
+        for="inputVehicleType2">Type of Vehicle</label>
+      <select class="form-control mb-2 mr-sm-4"
+        id="inputVehicleType2"
+        formControlName="vehicleType">
+        <option value="">Choose...</option>
+        <option *ngFor="let vehicle of vehicleTypes"
+          [ngValue]="vehicle.value">{{vehicle.text}}</option>
+      </select>
+
       <button type="submit"
-        [disabled]="!findVehicleByRegForm.valid"
         class="btn btn-primary mb-2">Find</button>
     </form>
 
     <hr />
 
     <div *ngIf="vehicleDetails">
-      <pre>{{ vehicleDetails | json }}</pre>
+      <swp-parking-details [showDelete]="'false'"
+        [parkingLotStatus]="vehicleDetails">
+      </swp-parking-details>
     </div>
   </div>
 </div>

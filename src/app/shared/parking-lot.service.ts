@@ -31,17 +31,24 @@ export class ParkingLotService {
   searchVehicleLocationByRegistration(params) {
     let data = new HttpParams();
     data = data.append('registrationNumber', params.registrationNumber);
-    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: params });
+    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: data });
   }
 
   searchVehicleLocationByVehicleType(params) {
     let data = new HttpParams();
     data = data.append('vehicleType', params.vehicleType);
-    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: params });
+    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: data });
   }
 
   reserveParking(params) {
     return this.httpClient.post(`${BASE_URL}/park`, params, this.options);
+  }
+
+  unParkThisVehicle(params) {
+    console.log(params);
+    let data = new HttpParams();
+    data = data.append('registrationNumber', params.registrationNumber);
+    return this.httpClient.request('delete', `${BASE_URL}/unpark`, { body: data });
   }
 
   parkingStatus() {
