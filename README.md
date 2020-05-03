@@ -1,4 +1,6 @@
-# SwParking
+# ng-parking-lot
+
+A Multi Storey parking lot system's front end engineered using Angular, Bootstrap, HTML, Less.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.14.
 
@@ -6,13 +8,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Features
+1. Create or Add spaces to a parking lot.
+2. Find an empty space in a parking lot for your vehicle.
+3. Park your vehicle at the first available space in the parking lot.
+4. The vehicle slot and type can also be fetched using the registration number and vice-versa.
+5. Display the count of each kind of vehicle present at the lot at any point of time.
+6. Remove your vehicle from the parked spot freeing that space.
+
 
 ## Running unit tests
 
