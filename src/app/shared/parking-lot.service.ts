@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateParkingLot } from './api-response.interface';
 
-const BASE_URL = 'http://localhost:3000/parkinglots';
+// const BASE_URL = 'http://localhost:3000/parkinglots';
+const BASE_URL = 'https://murmuring-island-79998.herokuapp.com/parkinglots';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,6 @@ export class ParkingLotService {
   }
 
   unParkThisVehicle(params) {
-    console.log(params);
     let data = new HttpParams();
     data = data.append('registrationNumber', params.registrationNumber);
     return this.httpClient.request('delete', `${BASE_URL}/unpark`, { body: data });
