@@ -3,38 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'swp-create-parking-lot',
-  template: `
-    <p>
-      <button class="btn btn-primary"
-        type="button"
-        (click)="toggle()">
-        Create/Add a new parking lot
-      </button>
-    </p>
-
-    <div *ngIf="collapseCreateParkingLot">
-      <form class="form-inline"
-        [formGroup]="createParkingLotForm"
-        (ngSubmit)="onSubmit()">
-        <div class="form-group mb-2">
-          <label for="parkingSlotNumber"
-            class="col-sm-4 p-0 col-form-label">Number of slots</label>
-          <input type="number"
-            class="form-control"
-            formControlName="slots"
-            id="parkingSlotNumber"
-            [ngClass]="{ 'is-invalid': submitted && f.slots.errors }" />
-          <div *ngIf="submitted && f.slots.errors"
-            class="invalid-feedback">
-            <div *ngIf="f.slots.errors.required">Slot number is required</div>
-          </div>
-        </div>
-
-        <button type="submit"
-          class="btn btn-primary ml-2 mb-2">Create Parking Lot</button>
-      </form>
-    </div>
-  `
+  templateUrl: './create-parking-lot.component.html'
 })
 
 export class CreateParkingLotComponent implements OnInit {

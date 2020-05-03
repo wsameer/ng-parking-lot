@@ -1,9 +1,9 @@
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse
+  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 } from '@angular/common/http';
-import { Injectable } from "@angular/core"
-import { Observable, of, throwError } from "rxjs";
-import { tap, catchError, retry } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()

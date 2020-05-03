@@ -1,0 +1,22 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Slot No.</th>
+      <th scope="col">Vehicle Registration</th>
+      <th scope="col">Type of Vehicle</th>
+      <th *ngIf="showDelete === 'true'"
+        scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let status of parkingLotStatus ">
+      <td>{{ status.slotNumber }}</td>
+      <td>{{ status.registrationNumber }}</td>
+      <td>{{ status.vehicleType | vehicleType }}</td>
+      <td *ngIf="showDelete === 'true'">
+        <button class="btn btn-danger"
+          (click)="delete(status.registrationNumber)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

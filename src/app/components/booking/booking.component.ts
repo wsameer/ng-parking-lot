@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ParkingLotService } from 'src/app/shared/parking-lot.service';
 import { ToastrService } from 'ngx-toastr';
-import { VEHICLE_TYPES } from '../../shared/app.constant.js';
+import { ParkingLotService } from 'src/app/core/services/parking-lot.service.js';
+import { VEHICLE_TYPES } from 'src/app/core';
 
 @Component({
   selector: 'swp-booking',
@@ -19,7 +19,7 @@ export class BookingComponent implements OnInit {
   parkingSpace = {
     finding: false,
     spaceAvailable: []
-  }
+  };
   reservingSpace = false;
 
   vehicleTypes = VEHICLE_TYPES;
@@ -84,18 +84,18 @@ export class BookingComponent implements OnInit {
       slots: this.parkingSpace.spaceAvailable.join(','),
       registrationNumber: this.parkingForm.value.registrationNumber,
       vehicleType: this.parkingForm.value.vehicleType
-    }
+    };
 
     return this.parkingLot.reserveParking(parameters)
       .subscribe((response: any) => {
         this.reservingSpace = false;
         if (response && response.success === 1) {
           // ADD THE VALUE IN SOMETHING
-          this.toastr.success(response.data, 'Parked!');
+          this.toastr.success('Your vehicle has been successfully parked', 'Parked!');
         } else {
           // error
           this.toastr.error(response.message, 'Not Parked!');
-          console.log(response.message || response.error);
+          // console.log(response.message || response.error);
         }
 
         this.parkingSpace.spaceAvailable = [];

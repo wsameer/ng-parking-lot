@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ParkingLotService } from 'src/app/shared/parking-lot.service';
-import { VEHICLE_TYPES } from "../../shared/app.constant.js";
+import { ParkingLotService } from 'src/app/core/services/parking-lot.service';
 import { ToastrService } from 'ngx-toastr';
+import { VEHICLE_TYPES } from 'src/app/core';
 
 @Component({
   selector: 'swp-find-vehicle',
@@ -50,7 +50,7 @@ export class FindVehicleComponent implements OnInit {
         });
     } else if (
       this.findVehicleByRegForm.value.vehicleType != null
-      && this.findVehicleByRegForm.value.vehicleType != ''
+      && this.findVehicleByRegForm.value.vehicleType !== ''
     ) {
       this.parkingLotService.searchVehicleLocationByVehicleType(this.findVehicleByRegForm.value)
         .subscribe((response: any) => {

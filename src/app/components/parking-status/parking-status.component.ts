@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ParkingLotService } from 'src/app/shared/parking-lot.service';
-import { CreateParkingLot, createParkingResponse } from 'src/app/shared/api-response.interface';
+import { ParkingLotService } from 'src/app/core/services/parking-lot.service';
 import { ToastrService } from 'ngx-toastr';
+import { ParkingLot } from 'src/app/core';
 
 @Component({
   selector: 'swp-parking-status',
@@ -75,8 +75,8 @@ export class ParkingStatusComponent implements OnInit {
   getCurrentParkingStatus() {
     this.parkingLot.parkingStatus()
       .subscribe((res: any) => {
-        if (res && res.success == 1) {
-          this.parkingLotStatus = res.data
+        if (res && res.success === 1) {
+          this.parkingLotStatus = res.data;
         } else {
           this.toastr.error(res.message, 'Error');
         }
@@ -85,12 +85,12 @@ export class ParkingStatusComponent implements OnInit {
 
   /**
    * Creates a new parking lot
-   * @param params { slots: <number> } 
+   * params slots: <number> 
    */
-  createNewParkingLot(params: CreateParkingLot) {
+  createNewParkingLot(params: any) {
     this.parkingLot.createParkingLot(params)
-      .subscribe((response: createParkingResponse) => {
-        if (response && response.success == 1) {
+      .subscribe((response: any) => {
+        if (response && response.success === 1) {
           this.toastr.success(response.message, 'Success');
           this.getTotalParkingSlotsCount();
         } else {
@@ -100,10 +100,8 @@ export class ParkingStatusComponent implements OnInit {
   }
 
   unParkVehicle(registrationNumber: string) {
-    this.parkingLot.unParkThisVehicle({
-      registrationNumber: registrationNumber
-    }).subscribe((response: any) => {
-      if (response && response.success == 1) {
+    this.parkingLot.unParkThisVehicle({ registrationNumber }).subscribe((response: any) => {
+      if (response && response.success === 1) {
         this.toastr.success(response.data, 'Bye!');
         this.getCurrentParkingStatus();
       } else {

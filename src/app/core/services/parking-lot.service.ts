@@ -1,57 +1,53 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CreateParkingLot } from './api-response.interface';
-
-// const BASE_URL = 'http://localhost:3000/parkinglots';
-const BASE_URL = 'https://murmuring-island-79998.herokuapp.com/parkinglots';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ParkingLotService {
   private options = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
-  // private parkingStatus = [];
 
   constructor(private httpClient: HttpClient) { }
 
   getTotalParkingSlots(): Observable<any> {
-    return this.httpClient.get(BASE_URL);
+    return this.httpClient.get(environment.api_url);
   }
 
-  createParkingLot(params: CreateParkingLot) {
-    return this.httpClient.post(`${BASE_URL}/create`, params, this.options);
+  createParkingLot(params: any) {
+    return this.httpClient.post(`${environment.api_url}/create`, params, this.options);
   }
 
   findParking(params) {
     let data = new HttpParams();
     data = data.append('vehicleType', params.vehicleType);
-    return this.httpClient.get(`${BASE_URL}/find/parking`, { params: params });
+    return this.httpClient.get(`${environment.api_url}/find/parking`, { params });
   }
 
   searchVehicleLocationByRegistration(params) {
     let data = new HttpParams();
     data = data.append('registrationNumber', params.registrationNumber);
-    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: data });
+    return this.httpClient.get(`${environment.api_url}/find/vehicle`, { params: data });
   }
 
   searchVehicleLocationByVehicleType(params) {
     let data = new HttpParams();
     data = data.append('vehicleType', params.vehicleType);
-    return this.httpClient.get(`${BASE_URL}/find/vehicle`, { params: data });
+    return this.httpClient.get(`${environment.api_url}/find/vehicle`, { params: data });
   }
 
   reserveParking(params) {
-    return this.httpClient.post(`${BASE_URL}/park`, params, this.options);
+    return this.httpClient.post(`${environment.api_url}/park`, params, this.options);
   }
 
   unParkThisVehicle(params) {
     let data = new HttpParams();
     data = data.append('registrationNumber', params.registrationNumber);
-    return this.httpClient.request('delete', `${BASE_URL}/unpark`, { body: data });
+    return this.httpClient.request('delete', `${environment.api_url}/unpark`, { body: data });
   }
 
   parkingStatus() {
-    return this.httpClient.get(`${BASE_URL}/status`);
+    return this.httpClient.get(`${environment.api_url}/status`);
   }
 }

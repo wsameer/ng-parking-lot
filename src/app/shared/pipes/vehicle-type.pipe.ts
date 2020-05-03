@@ -21,10 +21,10 @@ export class VehicleTypePipe implements PipeTransform {
         return 'Car';
 
       case '3':
-        return 'Truck'
+        return 'Truck';
 
       default:
-        return ''
+        return '';
     }
   }
 
