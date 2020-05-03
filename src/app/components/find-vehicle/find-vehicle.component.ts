@@ -39,7 +39,6 @@ export class FindVehicleComponent implements OnInit {
     ) {
       this.parkingLotService.searchVehicleLocationByRegistration(this.findVehicleByRegForm.value)
         .subscribe((response: any) => {
-          // console.log(response);
           if (response.data.length === 0) {
             return this.toastr.error(
               `Vehicle not found with Reg. No. ${this.findVehicleByRegForm.value.registrationNumber}`,
@@ -55,7 +54,6 @@ export class FindVehicleComponent implements OnInit {
     ) {
       this.parkingLotService.searchVehicleLocationByVehicleType(this.findVehicleByRegForm.value)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.data.length === 0) {
             return this.toastr.error(
               `No vehicle found.`,

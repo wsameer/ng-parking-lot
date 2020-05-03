@@ -103,7 +103,6 @@ export class ParkingStatusComponent implements OnInit {
     this.parkingLot.unParkThisVehicle({
       registrationNumber: registrationNumber
     }).subscribe((response: any) => {
-      console.log(response);
       if (response && response.success == 1) {
         this.toastr.success(response.data, 'Bye!');
         this.getCurrentParkingStatus();
