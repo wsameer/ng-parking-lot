@@ -2,15 +2,11 @@
 
 A Multi Storey parking lot system's front end engineered using Angular, Bootstrap, HTML, Less.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.14.
+![demo](./static/parking-lot-template.png "Parking Lot UI")
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Build with:
+ - [Angular CLI](https://github.com/angular/angular-cli) version 8.3.14.
+ - [Bootstrap 4](https://getbootstrap.com)
 
 ## Features
 1. Create or Add spaces to a parking lot.
@@ -20,6 +16,14 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 5. Display the count of each kind of vehicle present at the lot at any point of time.
 6. Remove your vehicle from the parked spot freeing that space.
 
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests
 
