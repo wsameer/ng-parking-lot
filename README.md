@@ -7,6 +7,7 @@ A Multi Storey parking lot system's front end engineered using Angular, Bootstra
 Build with:
  - [Angular CLI](https://github.com/angular/angular-cli) version 8.3.14.
  - [Bootstrap 4](https://getbootstrap.com)
+ - Node.js (backend)
 
 ## Features
 1. Create or Add spaces to a parking lot.
